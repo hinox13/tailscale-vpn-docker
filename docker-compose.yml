@@ -1,0 +1,16 @@
+services:
+  tailscale:
+    container_name: tailscaled
+    image: tailscale/tailscale:latest
+    restart: unless-stopped
+    privileged: true
+    network_mode: host
+    volumes:
+      - /var/lib:/var/lib
+      - /dev/net/tun:/dev/net/tun
+    environment:
+      - TS_AUTH_KEY=${TS_AUTHKEY}
+      - TS_STATE_DIR=/var/lib/tailscale
+      - TS_EXTRA_ARGS=--advertise-exit-node
+    cap_add:
+      - NET_ADMIN
